@@ -5,7 +5,7 @@ import "slices"
 const (
 	Addition = '+'
 	Deletion = '-'
-	Copy     = '='
+	Keep     = '='
 )
 
 // Edit represents the sequence of edit operations
@@ -15,7 +15,7 @@ type Edit []byte
 func (e Edit) Distance() int {
 	d := 0
 	for _, c := range e {
-		if c != Copy {
+		if c != Keep {
 			d++
 		}
 	}
@@ -56,7 +56,7 @@ func Diff[A, B any](a []A, b []B, cmp func(a *A, b *B) bool) Edit {
 
 			for i < m && i+k < n && cmp(&a[i], &b[i+k]) {
 				i++
-				ed = append(ed, Copy)
+				ed = append(ed, Keep)
 			}
 
 			if k == n-m && i == m {
